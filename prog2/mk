@@ -1,0 +1,2 @@
+ls.out:wlj_ls.c
+	gcc -O -o ls.out wlj_ls.c
