@@ -8,6 +8,7 @@
 #include <time.h>
 #include <string.h>
 //读取文件类型信息
+//返回值为读写的指针
 int get_file_mode(mode_t st_mode, char *resp);
 
 //读取文件类型信息
@@ -51,7 +52,7 @@ int get_file_type(mode_t st_mode, char *resp)
 	else if (S_ISLNK(st_mode)) resp[0] = 'l';  //链接文件
 	else resp[0] = ' ';
 
-	return 0;
+	return 1;
 }
 int get_file_others(struct stat *info, char *resp)
 {	struct tm *mtime;
@@ -64,7 +65,7 @@ int get_file_others(struct stat *info, char *resp)
 int get_file_mode(mode_t st_mode, char *resp)
 {
 	if (resp == NULL) 
-		return -1;
+		return 0;
 	memset(resp, '-', 9);
 	if (st_mode & S_IRUSR) resp[0] = 'r';
 	if (st_mode & S_IWUSR) resp[1] = 'w';
@@ -75,7 +76,7 @@ int get_file_mode(mode_t st_mode, char *resp)
 	if (st_mode & S_IXGRP) resp[5] = 'x';
 	if (st_mode & S_IROTH) resp[6] = 'r';
 	if (st_mode & S_IWOTH) resp[7] = 'w';
-	if (st_mode & S_IXOTH) resp[9] = 'x';
+	if (st_mode & S_IXOTH) resp[8] = 'x';
 
-	return 0;
+	return 9;
 }

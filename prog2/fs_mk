@@ -1,0 +1,2 @@
+fs.out:wlj_filesystem.c
+	gcc -O -o fs wlj_filesystem.c
