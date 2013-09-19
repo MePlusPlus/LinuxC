@@ -31,4 +31,14 @@ int read_file(int fd, void *ptr, int *size);
 //写入size个字符
 int write_file(int fd, void *ptr, int size);
 
+/*------- 守护进程生成器，将普通进程转为守护进程 -------*/
+
+//处理SIGCLD信号 预防僵死进程
+void clear_child(int sig);
+
+//将普通进程转为守护进程
+//后台进程特点：后台运行，独立域控制终端，清除文件掩码，处理信号
+int init_server();
+
+
 #endif
