@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include <error.h>
 #include <assert.h>
+#include <time.h>
+
 //格式化日志输出函数
 int print_log(FILE *fp,const char *format, ...);
 int print_trace_log(const char *format, ...);
@@ -40,5 +42,27 @@ void clear_child(int sig);
 //后台进程特点：后台运行，独立域控制终端，清除文件掩码，处理信号
 int init_server();
 
+/*------ 时间函数封装库 --------------*/
+typedef struct _time_struct
+{
+	int nYear;	//真实年份
+	int nMon;	
+	int nDay;
+	int nHour;	//0-23
+	int nMin;	
+	int nSec;
+}time_struct;
 
+//读取时间 返回自定义结构
+time_struct* get_time(time_struct *timeptr);
+
+//时间差
+time_struct get_offset_time(time_struct *timeptr, int offsetsec);
+
+/*---------- 定时读写函数-----*/
+//函数在接收足够的输入或写入足够的输出后返回 如果无输入输出则定时完成后函数返回
+
+int read_file_time(int fd, void *ptr, int *size, int timeout);
+
+int write_file_time(int fd, void *ptr, int size, int timeout);
 #endif
