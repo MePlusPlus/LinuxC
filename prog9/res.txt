@@ -1,0 +1,16 @@
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sun, 29 Sep 2013 01:43:13 GMT
+Content-Type: text/html;charset=gbk
+Transfer-Encoding: chunked
+Connection: keep-alive
+Last-Modified: Sun, 29 Sep 2013 01:43:13 GMT
+Cache-Control: no-cache
+Set-Cookie: JSESSIONID=9B623C78CDEA59D142400A8AD6F492A7.a; Path=/
+Pragma: No-cache
+Expires: Thu, 01 Jan 1970 00:00:00 GMT
+Content-Encoding: gzip
+Vary: Accept-Encoding
+
+60
+‹
