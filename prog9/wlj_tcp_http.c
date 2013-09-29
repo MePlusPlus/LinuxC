@@ -27,8 +27,7 @@ char request[] =
 	"Accept-Encoding:gzip,deflate,sdch\r\n"
 	"Accept-Charset: GBK,utf-8\r\n"
 	"Cookie: JSESSIONID=555033F94DFEE2B716305E2907B10EC2.a\r\n\r\n"
-	"UserNo=38601&UserNo=38602&UserNo=38603&UserNo=38604&UserNo=38605&UserNo=38606&UserNo=38607&UserNo=38608&UserNo=38609&UserNo=38610&yzm=nxndd&input.x=110&input.y=19\r\n";
-
+	"UserNo=38601&UserNo=38602&UserNo=38603&UserNo=38604&UserNo=38605&UserNo=38606&UserNo=38607&UserNo=38608&UserNo=38609&UserNo=38610&yzm=nxndd&input.x=110&input.y=19\r\n\0";
 void main()
 {
 	char response[8192];
@@ -56,19 +55,27 @@ void main()
 		fprintf(stderr, "connect error:%s\n", strerror(errno));
 		return;
 	}
-	send(nSock, request, sizeof(request), 0);
+	//sizeof改为strlen(request)这样发送所有的数据
+	send(nSock, request, strlen(request), 0);
 	fprintf(stderr, request);
-	memset(response, 0, sizeof(response));
-	recv(nSock, response, sizeof(response), 0);
-	fprintf(stderr, response);
+	//由于实体响应内容较多，必须循环接收，直到出错或者结束
+	int flag = 8192;
+	int count = 0;
 	FILE *file;
-	if ((file = fopen("res.txt","w")) == NULL)
+	if ((file = fopen("res.txt", "w")) == NULL)
 	{
 		fprintf(stderr, "file create error!\n");
 		return;
 	}
-	fprintf(file,"%s", response);
+	while(flag > 0)
+	{
+		memset(response, 0, sizeof(response));
+		flag = recv(nSock, response, sizeof(response), 0);
+		count += flag;
+		fprintf(stderr,"flag=%d:%s",flag,response);
+		fprintf(file,"%s", response);
+	}
 	fclose(file);
 	close(nSock);
-	fprintf(stderr, "-------投票结束[%d]---------\n", strlen(response));
+	fprintf(stderr, "-------投票结束[%d]---------\n", count);
 }
